@@ -1,6 +1,6 @@
 import pytest
 
-from src.main import get_player_stats, get_player_ids
+from pga_tour_data.main import get_player_stats, get_player_ids
 
 
 def test_get_player_stats(example_stat_json):
