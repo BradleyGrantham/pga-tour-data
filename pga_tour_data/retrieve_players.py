@@ -5,28 +5,19 @@ import requests
 from pga_tour_data.db.orm import add_players
 
 
-def get_player_names_and_ids(year):
-    r = requests.get("https://statdata.pgatour.com/r/stats/{}/02671.json"
-                     .format(year))
+def get_players():
+    r = requests.get("https://statdata.pgatour.com/players/player.json")
     data = json.loads(r.content)
-    player_details = data['tours'][0]['years'][0]['stats'][0]['details']
-    info = [{'plrNum': plr['plrNum'],
-             'firstName': plr['plrName']['first'],
-             'lastName': plr['plrName']['last']}
+    player_details = data['plrs']
+    players = [{'player_id': plr['pid'],
+             'first_name': plr['nameF'],
+             'last_name': plr['nameL'],
+             'nationality': plr['ct'],
+             'years_on_tour': [int(x) for x in plr['yrs']]}
             for plr in player_details]
-    return info
+    return players
 
 
 if __name__ == '__main__':
-    players = (get_player_names_and_ids(2012)
-               + get_player_names_and_ids(2013)
-               + get_player_names_and_ids(2014)
-               + get_player_names_and_ids(2015)
-               + get_player_names_and_ids(2016)
-               + get_player_names_and_ids(2017)
-               + get_player_names_and_ids(2018))
-    players = {int(player['plrNum']): {'player_id': int(player['plrNum']),
-                                       'first_name': player['firstName'],
-                                       'last_name': player['lastName']}
-               for player in players}
-    add_players([x for x in players.values()])
+    players = get_players()
+    add_players(players)

@@ -31,7 +31,10 @@ def add_players(players, merge=False):
 
     for player_dict in players:
         assert set(player_dict.keys()) == {'player_id',
-                                           'first_name', 'last_name'}
+                                           'first_name',
+                                           'last_name',
+                                           'nationality',
+                                           'years_on_tour'}
         f(Players(**player_dict))
 
     session.commit()

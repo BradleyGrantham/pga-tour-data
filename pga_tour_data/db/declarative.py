@@ -13,6 +13,8 @@ class Players(Base):
     player_id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String, nullable=False)
+    nationality = Column(String)
+    years_on_tour = Column(JSON)
 
 
 class SummaryStats(Base):
