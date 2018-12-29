@@ -68,3 +68,4 @@ tests/.pytest_cache/
 # other
 .pycache
 src/scratch.py
+*.png
