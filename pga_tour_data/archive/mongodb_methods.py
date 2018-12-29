@@ -20,4 +20,7 @@ def retrieve_document(field, value, database, collection):
     client = MongoClient()
     db = client[database]
     coll = db[collection]
-    return coll.find_one({field: value})
+    if field is not None and value is not None:
+        return coll.find_one({field: value})
+    else:
+        return coll.find_one({})
