@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy.orm import sessionmaker
 
-from pga_tour_data.db.declarative import engine, Base, Players, SummaryStats
+from pga_tour_data.db.declarative import engine, Base, Players, SummaryStats, Tournaments
 
 
 def _get_session():
@@ -62,6 +62,41 @@ def add_summary_stats(summary_stats, merge=False):
 
     session.commit()
     session.close()
+
+def add_tournaments(tournaments, merge=False):
+    session = _get_session()
+
+    if isinstance(tournaments, dict):
+        tournaments = [tournaments]
+
+    if not isinstance(tournaments, list):
+        assert False, "You must pass a list of player dictionaries of just a " \
+                      "single player dictionary"
+
+    if not merge:
+        f = session.add
+    else:
+        f = session.merge
+
+    for tournament_dict in tournaments:
+        assert set(tournament_dict.keys()) == {'tournament_year_id',
+                                               'tournament_id',
+                                               'year',
+                                               'start_date',
+                                               'end_date',
+                                               'tournament_name',
+                                               'course_id',
+                                               'course_name',
+                                               'country',
+                                               'state',
+                                               'city',
+                                               'purse',
+                                               'major'}
+        f(Tournaments(**tournament_dict))
+
+    session.commit()
+    session.close()
+
 
 
 if __name__ == "__main__":
