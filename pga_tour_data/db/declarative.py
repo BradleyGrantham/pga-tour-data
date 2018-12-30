@@ -10,7 +10,7 @@ Base = declarative_base(bind=engine)
 
 class Players(Base):
     __tablename__ = "players"
-    player_id = Column(Integer, primary_key=True)
+    player_id = Column(String, primary_key=True)
     first_name = Column(String)
     last_name = Column(String, nullable=False)
     nationality = Column(String)
