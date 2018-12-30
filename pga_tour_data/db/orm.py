@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy.orm import sessionmaker
 
-from pga_tour_data.db.declarative import engine, Base, Players, SummaryStats, Tournaments
+from pga_tour_data.db.declarative import engine, Base, Players, PlayerStats, StatNames, SummaryStats, Tournaments
 
 
 def _get_session():
@@ -62,6 +62,53 @@ def add_summary_stats(summary_stats, merge=False):
 
     session.commit()
     session.close()
+
+
+def add_player_stats(stats, merge=False):
+    session = _get_session()
+
+    if isinstance(stats, dict):
+        stats = [stats]
+
+    if not isinstance(stats, list):
+        assert False, "You must pass a list of player dictionaries of just a " \
+                      "single player dictionary"
+
+    if not merge:
+        f = session.add
+    else:
+        f = session.merge
+
+    for stat_dict in stats:
+        assert set(stat_dict.keys()) == {'player_id', 'stats'}
+        f(PlayerStats(**stat_dict))
+
+    session.commit()
+    session.close()
+
+
+def add_stat_names(stats, merge=False):
+    session = _get_session()
+
+    if isinstance(stats, dict):
+        stats = [stats]
+
+    if not isinstance(stats, list):
+        assert False, "You must pass a list of player dictionaries of just a " \
+                      "single player dictionary"
+
+    if not merge:
+        f = session.add
+    else:
+        f = session.merge
+
+    for stat_dict in stats:
+        assert set(stat_dict.keys()) == {'stat_id', 'stat_name'}
+        f(StatNames(**stat_dict))
+
+    session.commit()
+    session.close()
+
 
 def add_tournaments(tournaments, merge=False):
     session = _get_session()

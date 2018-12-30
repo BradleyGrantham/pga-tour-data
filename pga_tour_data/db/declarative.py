@@ -23,6 +23,18 @@ class SummaryStats(Base):
     stats = Column(JSON)
 
 
+class StatNames(Base):
+    __tablename__ = "stat_names"
+    stat_id = Column(String, primary_key=True)
+    stat_name = Column(String, nullable=False)
+
+
+class PlayerStats(Base):
+    __tablename__ = "player_stats"
+    player_id = Column(String, primary_key=True)
+    stats = Column(JSON)
+
+
 class Tournaments(Base):
     __tablename__ = "tournaments"
     tournament_year_id = Column(String, primary_key=True)
