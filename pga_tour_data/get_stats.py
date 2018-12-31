@@ -1,4 +1,5 @@
 import json
+import time
 
 import requests
 
@@ -68,4 +69,5 @@ if __name__ == '__main__':
             print(player_num)
         except Exception:
             print(player_num, 'different_exception')
+        time.sleep(6)
     add_player_stats(stats)
