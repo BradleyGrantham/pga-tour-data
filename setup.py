@@ -28,7 +28,7 @@ REQS = ["atomicwrites==1.2.1",
         "six==1.11.0",
         "SQLAlchemy==1.2.15",
         "Unidecode==1.0.22",
-        "urllib3==1.23"
+        "urllib3==1.24.2"
         ]
 
 
